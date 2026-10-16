@@ -1,0 +1,30 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+
+# Banco SQLite local
+*.db
+*.db-shm
+*.db-wal
+
+# Node
+node_modules/
+dist/
+
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# Editor / SO
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Ferramentas locais
+.claude/
