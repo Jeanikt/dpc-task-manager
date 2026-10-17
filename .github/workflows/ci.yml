@@ -35,3 +35,24 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+
+  docker:
+    name: Docker Compose
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up -d --build
+      - name: Smoke test
+        run: |
+          for i in $(seq 1 30); do curl -fs http://localhost:8080/health && break; sleep 2; done
+          curl -fs http://localhost:8080/health | grep Healthy
+          curl -fs http://localhost:8080/ | grep -q 'id="root"'
+          curl -fs -o /dev/null http://localhost:8080/swagger/index.html
+          TOKEN=$(curl -fs -X POST http://localhost:8080/api/auth/login \
+            -H 'Content-Type: application/json' \
+            -d '{"email":"usuario@dpc.local","password":"Usuario@123"}' | jq -r .accessToken)
+          curl -fs http://localhost:8080/api/tasks/summary -H "Authorization: Bearer $TOKEN" | jq -e '.total > 0'
+      - if: failure()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down -v
