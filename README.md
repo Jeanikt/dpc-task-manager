@@ -274,7 +274,7 @@ cd frontend && npm test
 - **Integração (WebApplicationFactory + SQLite descartável):** fluxo completo de CRUD, 401 sem token, validação 400, transição proibida 422, isolamento entre usuários, pesquisa/filtros/paginação, resumo, cadastro duplicado 409, login inválido 401 e Swagger disponível.
 - **Frontend:** menu de status mostra só as transições permitidas, validação do formulário, erro da API exibido no campo, formatação de datas.
 
-O GitHub Actions roda build, lint e todos os testes a cada push.
+O GitHub Actions roda build, lint e todos os testes a cada push e também sobe o Docker Compose, validando health check, frontend, Swagger e login de ponta a ponta.
 
 ## 10. Como fiz, dificuldades e facilidades
 
